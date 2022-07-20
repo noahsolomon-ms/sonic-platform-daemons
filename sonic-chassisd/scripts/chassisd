@@ -316,6 +316,13 @@ class ModuleUpdater(logger.Logger):
             fvs = swsscommon.FieldValuePairs([(CHASSIS_MIDPLANE_INFO_IP_FIELD, midplane_ip),
                                               (CHASSIS_MIDPLANE_INFO_ACCESS_FIELD, str(midplane_access))])
             self.midplane_table.set(module_key, fvs)
+            self.update_etchost(module_key, midplane_ip)
+    
+    def update_etchost(self, linecard_name: str, linecard_ip: str):
+        with open("/etc/hosts", "a") as file:
+            file.write(f"{linecard_ip}\t{linecard_name}\n")
+            file.close()
+
 
 #
 # Config Manager task ========================================================
